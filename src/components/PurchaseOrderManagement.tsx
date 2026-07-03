@@ -84,6 +84,30 @@ import { DraggableTableRow, DraggableTableHeader } from './ui/draggable-table-ro
 // Mock data for Purchase Orders
 const purchaseOrderData = [
   {
+    id: 9991,
+    poNumber: 'PO-2025-001',
+    rfqNumber: 'RFQ-2025-001',
+    buyer: 'TechCorp Inc.',
+    buyerContact: 'john.smith@techcorp.com',
+    issueDate: '2025-10-16',
+    expectedDeliveryDate: '2025-11-01',
+    totalAmount: 60000,
+    currency: 'USD',
+    status: 'New',
+    priority: 'High',
+    acknowledgmentStatus: 'Pending',
+    lineItems: [
+      { id: 1, item: 'Office Furniture Set', quantity: 1, unitPrice: 60000, total: 60000, deliveryDate: '2025-11-01' }
+    ],
+    deliveryAddress: '123 Business Park, Tech City, TC 12345',
+    terms: 'Net 30 days',
+    notes: 'Based on RFQ-2025-001 specifications.',
+    attachments: ['PO_specifications.pdf'],
+    notifications: [],
+    changeRequests: [],
+    communicationHistory: []
+  },
+  {
     id: 1,
     poNumber: 'PO-2023-001',
     rfqNumber: 'RFQ-2023-001',

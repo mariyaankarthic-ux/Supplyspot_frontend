@@ -69,6 +69,46 @@ import { DraggableTableRow, DraggableTableHeader } from './ui/draggable-table-ro
 // Mock data for RFQs
 const rfqData = [
   {
+    id: 9991,
+    rfqNumber: 'RFQ-2025-001',
+    title: 'Office Furniture Supply RFQ',
+    buyer: 'TechCorp Inc.',
+    description: 'Need office furniture for new office setup as discussed in collaboration dashboard',
+    category: 'Furniture',
+    budget: 60000,
+    currency: 'USD',
+    issuedDate: '2025-09-01',
+    dueDate: '2025-10-15',
+    status: 'Open',
+    priority: 'High',
+    suppliers: ['Premium Office Solutions', 'OfficeMax Solutions', 'Global Office Co'],
+    quotationsReceived: 1,
+    totalQuotations: 3,
+    attachments: ['specifications.pdf'],
+    clarifications: 1
+  },
+  {
+    id: 9992,
+    rfqNumber: 'RFQ-2025-002',
+    title: 'Raw Materials Sourcing',
+    buyer: 'BuildCorp',
+    description: 'Bulk supply of raw materials for production',
+    category: 'Construction',
+    budget: 150000,
+    currency: 'USD',
+    issuedDate: '2025-09-10',
+    dueDate: '2025-10-25',
+    status: 'Awarded',
+    priority: 'Low',
+    suppliers: ['MaterialSource Inc', 'Global Building'],
+    quotationsReceived: 2,
+    totalQuotations: 2,
+    attachments: ['site_plan.dwg'],
+    clarifications: 0,
+    awardedTo: 'MaterialSource Inc',
+    awardedAmount: 145000
+  },
+  {
     id: 1,
     rfqNumber: 'RFQ-2023-001',
     title: 'Office Equipment Procurement',
@@ -454,6 +494,23 @@ const rfqData = [
 
 // Mock quotation data
 const quotationData = [
+  {
+    id: 9991,
+    rfqId: 9993, // matching a potential QUO ID
+    rfqNumber: 'RFQ-2025-003',
+    supplierName: 'CleanPro Services',
+    quotationNumber: 'QUO-2025-089',
+    totalAmount: 15000,
+    currency: 'USD',
+    submittedDate: '2025-10-01',
+    validUntil: '2025-11-01',
+    status: 'Submitted',
+    lineItems: [
+      { item: 'Cleaning Services', unitPrice: 15000, quantity: 1, total: 15000 }
+    ],
+    notes: 'Quotation for Cleaning Services.',
+    attachments: ['quotation_details.pdf']
+  },
   {
     id: 1,
     rfqId: 1,

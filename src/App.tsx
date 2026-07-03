@@ -22,6 +22,10 @@ import { SupplierDashboard } from "./components/SupplierDashboard";
 import { Databoards } from "./components/Databoards";
 import { RegistrationReview } from "./components/RegistrationReview";
 import ProcurementCollaboration from "./components/ProcurementCollaboration";
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
+import Login from './components/Login';
 
 export type NavigationItem =
   | "registration"
@@ -47,7 +51,7 @@ export type NavigationItem =
   | "databoards"
   | "settings";
 
-export default function App() {
+function Dashboard() {
   const [activeSection, setActiveSection] =
     useState<NavigationItem>("vendors");
 
@@ -120,5 +124,26 @@ export default function App() {
         </div>
       </main>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route 
+            path="/dashboard" 
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            } 
+          />
+          <Route path="*" element={<Navigate to="/dashboard" />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }

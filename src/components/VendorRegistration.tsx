@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs';
 import { Progress } from './ui/progress';
 import { Checkbox } from './ui/checkbox';
 import { RadioGroup, RadioGroupItem } from './ui/radio-group';
+import { vendorService } from '../services/api';
 import { Logo } from './Logo';
 import { 
   Building2,
@@ -171,13 +172,26 @@ export function VendorRegistration() {
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
   const [registrationViewMode, setRegistrationViewMode] = useState<'card' | 'list' | 'table'>('table');
   const [registrationData, setRegistrationData] = useState({
-    basic: {},
+    basic: {
+      companyName: '',
+      category: 'technology',
+      contactPerson: '',
+      email: '',
+      phone: ''
+    },
     legal: {},
     financial: {},
     capabilities: {},
     documents: {},
     verification: {}
   });
+
+  const handleBasicChange = (field: string, value: string) => {
+    setRegistrationData(prev => ({
+      ...prev,
+      basic: { ...prev.basic, [field]: value }
+    }));
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -447,11 +461,11 @@ export function VendorRegistration() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>Company Name *</Label>
-                <Input placeholder="Enter company name" />
+                <Input placeholder="Enter company name" value={registrationData.basic.companyName} onChange={e => handleBasicChange('companyName', e.target.value)} />
               </div>
               <div className="space-y-2">
                 <Label>Business Category *</Label>
-                <Select>
+                <Select value={registrationData.basic.category} onValueChange={(v: string) => handleBasicChange('category', v)}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select category" />
                   </SelectTrigger>
@@ -465,7 +479,7 @@ export function VendorRegistration() {
               </div>
               <div className="space-y-2">
                 <Label>Contact Person *</Label>
-                <Input placeholder="Full name" />
+                <Input placeholder="Full name" value={registrationData.basic.contactPerson} onChange={e => handleBasicChange('contactPerson', e.target.value)} />
               </div>
               <div className="space-y-2">
                 <Label>Designation</Label>
@@ -473,11 +487,11 @@ export function VendorRegistration() {
               </div>
               <div className="space-y-2">
                 <Label>Email Address *</Label>
-                <Input type="email" placeholder="contact@company.com" />
+                <Input type="email" placeholder="contact@company.com" value={registrationData.basic.email} onChange={e => handleBasicChange('email', e.target.value)} />
               </div>
               <div className="space-y-2">
                 <Label>Phone Number *</Label>
-                <Input placeholder="+91 9876543210" />
+                <Input placeholder="+91 9876543210" value={registrationData.basic.phone} onChange={e => handleBasicChange('phone', e.target.value)} />
               </div>
               <div className="space-y-2 col-span-2">
                 <Label>Registered Address *</Label>
@@ -757,7 +771,25 @@ export function VendorRegistration() {
               Next
             </Button>
           ) : (
-            <Button className="gap-2">
+            <Button className="gap-2" onClick={async () => {
+              try {
+                // Connect to the backend!
+                await vendorService.createVendor({
+                  name: registrationData.basic.companyName || 'Unknown Vendor',
+                  category: registrationData.basic.category || 'technology',
+                  contact: {
+                    email: registrationData.basic.email,
+                    phone: registrationData.basic.phone,
+                    name: registrationData.basic.contactPerson
+                  }
+                });
+                alert('Registration successfully submitted and saved to Database!');
+                setCurrentStep(0);
+                setCurrentView('overview');
+              } catch (error: any) {
+                alert('Database Error: ' + error.message);
+              }
+            }}>
               <Send className="w-4 h-4" />
               Submit Registration
             </Button>

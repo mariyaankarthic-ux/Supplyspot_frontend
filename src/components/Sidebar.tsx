@@ -41,6 +41,8 @@ import { Input } from './ui/input';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { cn } from './ui/utils';
 import { Logo } from './Logo';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 interface SidebarProps {
   activeSection: NavigationItem;
@@ -126,6 +128,8 @@ const navigationGroups: NavigationGroup[] = [
 export function Sidebar({ activeSection, onSectionChange }: SidebarProps) {
   const [collapsedGroups, setCollapsedGroups] = useState<Set<string>>(new Set());
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const navigate = useNavigate();
+  const { logout } = useAuth();
 
   const toggleGroup = (groupTitle: string) => {
     const newCollapsed = new Set(collapsedGroups);
@@ -292,7 +296,7 @@ export function Sidebar({ activeSection, onSectionChange }: SidebarProps) {
               Help & Support
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-destructive">
+            <DropdownMenuItem className="text-destructive" onClick={() => { logout(); navigate('/login'); }}>
               <LogOut className="mr-2 h-4 w-4" />
               Sign Out
             </DropdownMenuItem>

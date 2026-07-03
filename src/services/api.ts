@@ -1,6 +1,6 @@
 // Centralized API service for Supplier Spot application
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3001/api/v1';
 
 // Generic API client
 class ApiClient {
